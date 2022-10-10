@@ -97,7 +97,7 @@ DATABASES = {
             #     'host': 'mongodb+srv://<username>:<password>@<atlas cluster>/<myFirstDatabase>?retryWrites=true&w=majority'
             # }  
     }, 
-
+    # casiofx580 12345678
     
 }
 
