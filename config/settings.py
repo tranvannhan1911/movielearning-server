@@ -88,7 +88,7 @@ DATABASES = {
         'PASSWORD': 'mh370qz8501',
         'HOST': '', 
     },
-    'users': {
+    'movies': {
            'ENGINE': 'djongo',
            'NAME': 'movieLearning',
             # 'ENFORCE_SCHEMA': False,
