@@ -81,18 +81,24 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 DATABASES = {
+    
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'movie_learning',
+        'NAME': 'movieLearning',
         'USER': 'root',
-        'PASSWORD': 'anhthang123',
-        'HOST': 'localhost',
-        'PORT': '3306',
-        'OPTIONS': {
-            'charset': 'utf8mb4',
-            'sql_mode': 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION',
-        },
-    }
+        'PASSWORD': 'mh370qz8501',
+        'HOST': '', 
+    },
+    'users': {
+           'ENGINE': 'djongo',
+           'NAME': 'movieLearning',
+            # 'ENFORCE_SCHEMA': False,
+            # 'CLIENT': {
+            #     'host': 'mongodb+srv://<username>:<password>@<atlas cluster>/<myFirstDatabase>?retryWrites=true&w=majority'
+            # }  
+    }, 
+    # casiofx580 12345678
+    
 }
 # print(DATABASES['default'])
 
