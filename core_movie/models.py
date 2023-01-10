@@ -93,11 +93,6 @@ class Movie(djongoModels.Model):
     movie_id = djongoModels.CharField(primary_key=True, max_length=255,default=" ")
 
     objects = djongoModels.DjongoManager()
-    # runtime = djongoModels.PositiveIntegerField()
-    # video_url = djongoModels.TextField()
-    # number_of_seasons = djongoModels.PositiveIntegerField()
-    # number_of_episodes = djongoModels.PositiveIntegerField()
-
 
 # class User(djongoModels.Model):
 #     user_id = djongoModels.AutoField(primary_key=True)
