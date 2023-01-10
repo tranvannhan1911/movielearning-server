@@ -7,13 +7,13 @@ from drf_yasg.utils import swagger_auto_schema
 
 from django.views.decorators.csrf import csrf_exempt
 from django.http.response import JsonResponse
-from core_movie.serializers.movie import MovieSerializer
+from core_movie.serializers.movie import MovieSerializer,SubsSerializer
 from core_movie.utils.apicodes import ApiCode
-from core_movie.models import Movie
+from core_movie.models import Movie,Subs
 
 @api_view(['GET','POST','PUT','DELETE'])
 @csrf_exempt
-def all_movie(request,id=0):
+def all_movie(request,movie_id):
     if request.method=='GET':
         movies = Movie.objects.all()
         movies_serializer=MovieSerializer(movies,many=True)
@@ -34,7 +34,7 @@ def all_movie(request,id=0):
             return Response("Updated Successfully")
         return Response("Failed to Update")
     elif request.method=='DELETE':
-        movie=Movie.objects.get(movie_id=id)
+        movie=Movie.objects.get(movie_id=movie_id)
         movie.delete()
         return Response("Deleted Successfully")
 
@@ -45,3 +45,30 @@ def movie_detail(request, movie_id):
         movie = Movie.objects.get(movie_id=movie_id)
         movie_serializer=MovieSerializer(movie)
         return Response(data=ApiCode.success(data=movie_serializer.data),status=status.HTTP_200_OK)
+
+@api_view(['GET','POST','PUT','DELETE'])
+@csrf_exempt
+def movie_subs(request,movie_id):
+    if request.method=='GET':
+        subs = Subs.objects.filter(movie_id=movie_id)
+        subs_serializer=SubsSerializer(subs,many=True)
+        return Response(data=ApiCode.success(data=subs_serializer.data),status=status.HTTP_200_OK)
+    elif request.method=='POST':
+        subs_data=JSONParser().parse(request)
+        subs_serializer=SubsSerializer(data=subs_data)
+        if subs_serializer.is_valid():
+            subs_serializer.save()
+            return Response("Added Successfully",status=status.HTTP_201_CREATED)
+        return Response("Failed to Add", status=status.HTTP_400_BAD_REQUEST)
+    elif request.method=='PUT':
+        subs_data=JSONParser().parse(request)
+        sub=Subs.objects.get(movie_id=subs_data['movie_id'])
+        subs_serializer=SubsSerializer(sub,data=subs_data)
+        if subs_serializer.is_valid():
+            subs_serializer.save()
+            return Response("Updated Successfully")
+        return Response("Failed to Update")
+    elif request.method=='DELETE':
+        sub=Subs.objects.get(movie_id=movie_id)
+        sub.delete()
+        return Response("Deleted Successfully")
