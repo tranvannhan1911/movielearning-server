@@ -4,13 +4,22 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 
 from drf_yasg.utils import swagger_auto_schema
+from core_movie import swagger
+from core_movie.swagger import SwaggerSchema
 
 from django.views.decorators.csrf import csrf_exempt
-from django.http.response import JsonResponse
 from core_movie.serializers.movie import MovieSerializer,SubsSerializer
 from core_movie.utils.apicodes import ApiCode
 from core_movie.models import Movie,Subs
 
+@swagger_auto_schema(method='GET',
+        manual_parameters=[SwaggerSchema.token],
+        query_serializer=MovieSerializer,
+        responses={200: swagger.movie_info["list"]})
+@swagger_auto_schema(method='POST',
+        manual_parameters=[SwaggerSchema.token],
+        request_body=MovieSerializer,
+        responses={200: swagger.movie_info["get"]})
 @api_view(['GET','POST','PUT','DELETE'])
 @csrf_exempt
 def all_movie(request,id=0):
@@ -34,6 +43,10 @@ def all_movie(request,id=0):
             return Response("Updated Successfully")
         return Response("Failed to Update")
 
+@swagger_auto_schema(method='GET',
+        manual_parameters=[SwaggerSchema.token],
+        query_serializer=MovieSerializer,
+        responses={200: swagger.movie_info["get"]})
 @api_view(['GET','POST','PUT','DELETE'])
 @csrf_exempt
 def movie_detail(request, movie_id):
@@ -61,6 +74,15 @@ def movie_detail(request, movie_id):
         movie.delete()
         return Response("Deleted Successfully")
 
+    def get_queryset(self):
+        return Movie.objects.all().order_by("-level")
+
+# GET_SUBS
+@swagger_auto_schema(method='GET',
+
+        manual_parameters=[SwaggerSchema.token],
+        query_serializer=SubsSerializer,
+        responses={200: swagger.movie_sub["get"]})
 @api_view(['GET','POST','PUT','DELETE'])
 @csrf_exempt
 def movie_subs(request,movie_id):
