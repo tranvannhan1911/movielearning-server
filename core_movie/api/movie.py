@@ -13,7 +13,7 @@ from core_movie.models import Movie,Subs
 
 @api_view(['GET','POST','PUT','DELETE'])
 @csrf_exempt
-def all_movie(request,movie_id):
+def all_movie(request,id=0):
     if request.method=='GET':
         movies = Movie.objects.all()
         movies_serializer=MovieSerializer(movies,many=True)
@@ -27,7 +27,7 @@ def all_movie(request,movie_id):
         return Response("Failed to Add", status=status.HTTP_400_BAD_REQUEST)
     elif request.method=='PUT':
         movie_data=JSONParser().parse(request)
-        movie=Movie.objects.get(movie_id=movie_data['movie_id'])
+        movie=Movie.objects.get(id=movie_data['movie_id'])
         movies_serializer=MovieSerializer(movie,data=movie_data)
         if movies_serializer.is_valid():
             movies_serializer.save()
