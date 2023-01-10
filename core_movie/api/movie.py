@@ -17,7 +17,7 @@ def all_movie(request,movie_id):
     if request.method=='GET':
         movies = Movie.objects.all()
         movies_serializer=MovieSerializer(movies,many=True)
-        return Response(data=ApiCode.success(data=movies_serializer.data),status=status.HTTP_200_OK)
+        return Response(data=ApiCode.success(data=movies_serializer.data,message="getAllMovie"),status=status.HTTP_200_OK)
     elif request.method=='POST':
         movie_data=JSONParser().parse(request)
         movies_serializer=MovieSerializer(data=movie_data)
@@ -44,7 +44,7 @@ def movie_detail(request, movie_id):
     if request.method=='GET':
         movie = Movie.objects.get(movie_id=movie_id)
         movie_serializer=MovieSerializer(movie)
-        return Response(data=ApiCode.success(data=movie_serializer.data),status=status.HTTP_200_OK)
+        return Response(data=ApiCode.success(data=movie_serializer.data,message="getMovieDetail"),status=status.HTTP_200_OK)
 
 @api_view(['GET','POST','PUT','DELETE'])
 @csrf_exempt
@@ -52,7 +52,7 @@ def movie_subs(request,movie_id):
     if request.method=='GET':
         subs = Subs.objects.filter(movie_id=movie_id)
         subs_serializer=SubsSerializer(subs,many=True)
-        return Response(data=ApiCode.success(data=subs_serializer.data),status=status.HTTP_200_OK)
+        return Response(data=ApiCode.success(data=subs_serializer.data,message="getMovieSubs"),status=status.HTTP_200_OK)
     elif request.method=='POST':
         subs_data=JSONParser().parse(request)
         subs_serializer=SubsSerializer(data=subs_data)
