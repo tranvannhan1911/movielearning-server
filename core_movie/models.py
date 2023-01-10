@@ -48,6 +48,16 @@ class GenresForm(forms.ModelForm):
         model = Genres
         fields = ('id','display_name','name')
 
+class Subs(djongoModels.Model):
+    sub = djongoModels.ArrayField(
+            model_container=Translate,
+            model_form_class=TranslateForm
+        )
+    movie_id = djongoModels.CharField(primary_key=True, max_length=255,default=" ")
+
+    objects = djongoModels.DjongoManager()
+
+
 class Movie(djongoModels.Model):
     RATED_LEVEL_ONE = 1
     RATED_LEVEL_TWO = 2
@@ -81,10 +91,6 @@ class Movie(djongoModels.Model):
     video_url = djongoModels.TextField(default="abc")
     dateFirstPublished = djongoModels.DateTimeField(default=timezone.now)
     movie_id = djongoModels.CharField(primary_key=True, max_length=255,default=" ")
-    subs = djongoModels.ArrayField(
-        model_container=Translate,
-        model_form_class=TranslateForm
-    )
 
     objects = djongoModels.DjongoManager()
     # runtime = djongoModels.PositiveIntegerField()
