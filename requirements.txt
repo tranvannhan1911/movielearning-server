@@ -8,3 +8,5 @@ django-twilio==0.14.0
 django-otp-twilio==1.0.1
 tzdata
 django-vi-address
+pymongo==3.12.1
+django-extensions==3.2.1

@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-^o=r_$(6&#_b6nop57-hn+qzjc!vufw)m=wppy$o)6sp7*ix8-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['18.139.108.251']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -37,10 +37,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'drf-yasg',
+    'drf_yasg',
     'rest_framework',
     'corsheaders',
     'core_movie',
+    'crawl',
+    'django_extensions'
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
@@ -84,8 +86,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'djongo',
         'CLIENT': {
-            "host": "mongodb+srv://movielearning:movielearning@movielearning.0ia6lft.mongodb.net/test",
-            "name": "movie_learning",
+            "host": "mongodb+srv://movielearning:movielearning@movielearning.ryjorbv.mongodb.net/test",
+            "name": "movielearning",
             "authMechanism":"SCRAM-SHA-1" #FOR ATLAS DB
         }
     }
@@ -132,3 +134,8 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'djongo.models.BigAutoField'
+
+# CRONJOBS = [
+#     # ('* * * * *', 'app.cronjobs.get_cookies_udemy', '>> '+os.path.join(BASE_DIR,'logs/cronjob.log' + ' 2>&1 ')),
+#     ('* * * * *', 'app.cronjobs.get_cookie_all_platform', '>> '+os.path.join(BASE_DIR,'logs/cronjob.log' + ' 2>&1 '))
+# ]

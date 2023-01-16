@@ -1,11 +1,12 @@
 from djongo import models  as djongoModels
 from django import forms
 from django.utils import timezone
+from bson.objectid import ObjectId
 
 # Create your models here.
 
 class Translate(djongoModels.Model):
-    id = djongoModels.ObjectIdField()
+    id = djongoModels.ObjectIdField(default=ObjectId, primary_key=True)
     cueStart = djongoModels.IntegerField()
     transcript = djongoModels.TextField()
     cueEnd = djongoModels.IntegerField()
@@ -21,7 +22,7 @@ class TranslateForm(forms.ModelForm):
         fields = ('cueStart','transcript','cueEnd','transcript_vi','seq')
 
 class Localize(djongoModels.Model):
-    id = djongoModels.ObjectIdField()
+    id = djongoModels.ObjectIdField(primary_key=True)
     lang = djongoModels.CharField(max_length=5,default="abc")
     title = djongoModels.TextField(default="abc")
     overview = djongoModels.TextField(default="abc")
@@ -89,6 +90,7 @@ class Movie(djongoModels.Model):
     number_of_seasons = djongoModels.IntegerField(default=0)
     number_of_episodes = djongoModels.IntegerField(default=0)
     video_url = djongoModels.TextField(default="abc")
+    link_mp4 = djongoModels.TextField(default=None)
     dateFirstPublished = djongoModels.DateTimeField(default=timezone.now)
     movie_id = djongoModels.CharField(primary_key=True, max_length=255,default=" ")
 
