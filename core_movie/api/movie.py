@@ -24,7 +24,7 @@ from core_movie.models import Movie,Subs
 @csrf_exempt
 def all_movie(request,id=0):
     if request.method=='GET':
-        movies = Movie.objects.all()
+        movies = Movie.objects.all()[:5]
         movies_serializer=MovieSerializer(movies,many=True)
         return Response(data=ApiCode.success(data=movies_serializer.data,message="getAllMovie"),status=status.HTTP_200_OK)
     elif request.method=='POST':

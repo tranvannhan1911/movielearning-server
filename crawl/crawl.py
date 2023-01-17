@@ -76,19 +76,23 @@ def getAllMovie():
     idx = 1
     for movie in data:
         print(idx, cnt, movie["_id"])
+        idx += 1
         if Movie.objects.filter(pk=movie["_id"]).exists():
             print("Skipped")
             continue
-        dataM = getInfoMovie(movie["_id"])
-        dataM["movie_id"]=movie["_id"]
-        dataM.pop('_id')
-        for i in range(len(dataM["genres"])):
-            dataM["genres"][i]["mongo_id"] = ObjectId()
-        for i in range(len(dataM["localizes"])):
-            dataM["localizes"][i]["id"] = ObjectId()
-        print(dataM)
-        Movie.objects.create(**dataM)
-        idx += 1
+        try:
+            dataM = getInfoMovie(movie["_id"])
+            dataM["movie_id"]=movie["_id"]
+            dataM.pop('_id')
+            for i in range(len(dataM["genres"])):
+                dataM["genres"][i]["mongo_id"] = ObjectId()
+            for i in range(len(dataM["localizes"])):
+                dataM["localizes"][i]["id"] = ObjectId()
+            # print(dataM)
+            Movie.objects.create(**dataM)
+            print("ok")
+        except:
+            print("skipped error")
     # print(dataMovies)
     # with open("./crawl/movies.json",'w', encoding='utf-8') as jsonfile:
     #     json.dump(dataMovies,jsonfile,ensure_ascii=False,indent=4)
