@@ -1,5 +1,4 @@
 from rest_framework.response import Response
-from rest_framework.parsers import JSONParser
 from rest_framework import status, generics
 from rest_framework.decorators import api_view
 from rest_framework_simplejwt.authentication import JWTAuthentication
@@ -14,32 +13,46 @@ from core_movie.serializers.movie import MovieSerializer,SubsSerializer
 from core_movie.utils.apicodes import ApiCode
 from core_movie.models import Movie,Subs
 
-from core_movie.utils import perms
-from core_movie.utils.perms import method_permission_classes
 
 #List Movie
-class AllMovieView(generics.GenericAPIView):
+class AllMovieView(generics.ListAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [AllowAny, ]
     serializer_class = MovieSerializer
+    def get_queryset(self):
+        return Movie.objects.all()
 
     @swagger_auto_schema(
         manual_parameters=[SwaggerSchema.token],
         query_serializer=MovieSerializer,
         responses={200: swagger.movie_info["list"]})
     def get(self, request, *args, **kwargs):
-        queryset = self.get_queryset()
-        response = MovieSerializer(data=queryset, many= True)
-        response.is_valid()
-        return Response(data=ApiCode.success(data=response.data,
-        message="getAllMovie with "+ str(len(response.data))),
-        status=status.HTTP_200_OK)
+        # All Movies
+        movies = self.get_queryset()
+        total = Movie.objects.count()
 
-    def get_queryset(self):
-        return Movie.objects.all()[:5]
+        # Pagination
+        page = request.GET.get('page', 1)
+        if page:
+            page = int(page)
+        per_page = 24
+        start = (page -1) * per_page
+        end = page * per_page
+
+        # Serializer
+        serializer = MovieSerializer(data=movies[start:end], many= True)
+        serializer.is_valid()
+        return Response(data=ApiCode.success(
+            message="getAllMovie",
+            count=len(serializer.data),
+            total=total,
+            data=serializer.data,
+            ),
+            status=status.HTTP_200_OK)
+
 
 # Movie Detail
-class MovieIdView(generics.GenericAPIView):
+class MovieIdView(generics.ListAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [AllowAny, ]
     serializer_class = MovieSerializer
@@ -59,7 +72,6 @@ class MovieIdView(generics.GenericAPIView):
         manual_parameters=[SwaggerSchema.token],
         request_body=MovieSerializer,
         responses={200: swagger.movie_info["get"]})
-    @method_permission_classes((perms.IsAdminUser, ))
     def put(self, request, movie_id):
         if not Movie.objects.filter(movie_id = movie_id).exists():
             return Response(data=ApiCode.error(message="Phim không tồn tại"),status=status.HTTP_200_OK)
@@ -73,7 +85,7 @@ class MovieIdView(generics.GenericAPIView):
 
 
 # # GET_SUBS
-class SubsView(generics.GenericAPIView):
+class SubsView(generics.ListAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [AllowAny, ]
     serializer_class = SubsSerializer
