@@ -1,10 +1,11 @@
 from django.contrib import admin
 from django.urls import path,include
-from core_movie.api import movie
+from core_movie.api.movie import AllMovieView,MovieIdView,SubsView
 
 
 urlpatterns = [
-    path('',movie.all_movie,name='all_movie_api'),
-    path('<str:movie_id>/',movie.movie_detail,name='movie_detail_api'),
-    path('<str:movie_id>/subtitle/',movie.movie_subs,name='movie_subs_api'),
+    path('',AllMovieView.as_view(),name='all_movie_api'),
+    path('<str:movie_id>/',MovieIdView.as_view(),name='movie_detail_api'),
+    path('<str:movie_id>/subtitle/',SubsView.as_view(),name='movie_subs_api'),
 ]
+

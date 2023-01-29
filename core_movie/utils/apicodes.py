@@ -1,20 +1,21 @@
 class ApiCode():
-    def toDict(code, message, data=None):
+    def toDict(total, count=1, message="", data=None):
         return {
-            "code": code,
+            "total": total,
+            "count":count,
             "message": message,
             "data": data
         }
 
-    def success(code=1, message="success", data=None):
-        return ApiCode.toDict(code, message, data)
+    def success(total=1, count=1, message="success", data=None):
+        return ApiCode.toDict(total, count, message, data)
 
-    def success_list(code=1, message="success", lst=None):
-        return ApiCode.toDict(code, message, data={
-            "count": len(lst),
+    def success_list(total=1, count=1, message="success", lst=None):
+        return ApiCode.toDict(total, message, data={
+            "count": count,
             "results": lst
         })
 
-    def error(code=0, message="error", data=None):
-        return ApiCode.toDict(code, message, data)
+    def error(total=0, message="error", data=None):
+        return ApiCode.toDict(total, message, data)
 

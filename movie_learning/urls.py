@@ -35,4 +35,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('movie/',include('core_movie.urls')),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    
+    # path('crawl/',include('core_movie.urls')),
 ]
