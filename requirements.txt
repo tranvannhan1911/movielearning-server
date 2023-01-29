@@ -3,8 +3,8 @@ djongo
 djangorestframework==3.13.1
 django-cors-headers==3.13.0
 djangorestframework-simplejwt==5.2.0
-drf-yasg==1.21.3
 django-twilio==0.14.0
 django-otp-twilio==1.0.1
 tzdata
 django-vi-address
+drf-yasg
