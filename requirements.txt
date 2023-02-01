@@ -10,3 +10,4 @@ django-vi-address
 drf-yasg
 pymongo==3.12.1
 django-extensions==3.2.1
+dnspython==2.3.0
