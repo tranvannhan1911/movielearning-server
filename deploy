@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+ssh -i "~/.ssh/nhantranvan.pem" ubuntu@18.139.108.251 '''/bin/bash -c "cd /home/ubuntu/movielearning-server \
+        && git pull origin main \
+        && (docker rm -f movielearning-server || true) \
+        && docker build -t tranvannhan1911/movielearning-server . \
+        && ./bin/run-container \
+        && docker exec movielearning-server python3 manage.py migrate "'''
+
+# && (docker rmi -f $(docker images -a | grep tranvannhan1911/minimart-server | awk "{print $3}") || true) \
