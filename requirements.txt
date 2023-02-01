@@ -7,9 +7,6 @@ django-twilio==0.14.0
 django-otp-twilio==1.0.1
 tzdata
 django-vi-address
-<<<<<<< HEAD
 drf-yasg
-=======
 pymongo==3.12.1
 django-extensions==3.2.1
->>>>>>> 56baa69e2fb32a51800a2cce09157d2f35e6e7be
