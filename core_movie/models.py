@@ -96,6 +96,9 @@ class Movie(djongoModels.Model):
 
     objects = djongoModels.DjongoManager()
 
+    def __str__(self):
+        return self.title
+
 # class User(djongoModels.Model):
 #     user_id = djongoModels.AutoField(primary_key=True)
 #     name = djongoModels.CharField(max_length=500)
