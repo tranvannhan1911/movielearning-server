@@ -1,4 +1,4 @@
-from rest_framework.response import Response
+from rest_framework.response import Response 
 from rest_framework import status, generics
 from rest_framework.decorators import api_view
 from rest_framework_simplejwt.authentication import JWTAuthentication
@@ -99,6 +99,7 @@ class SubsView(generics.ListAPIView):
         subs = Subs.objects.filter(movie_id=movie_id)
         subs_serializer=SubsSerializer(subs,many=True)
         return Response(data=ApiCode.success(data=subs_serializer.data,message="getMovieSubs"),status=status.HTTP_200_OK)
+
 
 
 #     elif request.method=='POST':
