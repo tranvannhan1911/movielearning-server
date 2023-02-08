@@ -1,5 +1,5 @@
 from rest_framework.response import Response 
-from rest_framework import status, generics
+from rest_framework import status, generics, viewsets
 from rest_framework.decorators import api_view
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import AllowAny
@@ -9,10 +9,10 @@ from core_movie import swagger
 from core_movie.swagger import SwaggerSchema
 
 from django.views.decorators.csrf import csrf_exempt
-from core_movie.serializers.movie import MovieSerializer,SubsSerializer
+from core_movie.serializers.movie import MovieSerializer,SubsSerializer, UserSerializers
 from core_movie.utils.apicodes import ApiCode
 from core_movie.models import Movie,Subs
-
+from django.contrib.auth.models import User
 
 #List Movie
 class AllMovieView(generics.ListAPIView):
@@ -109,3 +109,13 @@ class SubsView(generics.ListAPIView):
 #             subs_serializer.save()
 #             return Response("Added Successfully",status=status.HTTP_201_CREATED)
 #         return Response("Failed to Add", status=status.HTTP_400_BAD_REQUEST)
+
+class UserViewSet(viewsets.ViewSet, generics.CreateAPIView): 
+    authentication_classes = [JWTAuthentication]
+    queryset = User.objects.filter(is_active=True)
+    serializer_class = UserSerializers
+    permission_classes = [AllowAny]
+    
+     
+    
+

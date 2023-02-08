@@ -2,6 +2,8 @@ from djongo import models  as djongoModels
 from django import forms
 from django.utils import timezone
 from bson.objectid import ObjectId
+from django.contrib.auth.models import User
+# from django.db import models 
 
 # Create your models here.
 
@@ -100,3 +102,12 @@ class Movie(djongoModels.Model):
 #     user_id = djongoModels.AutoField(primary_key=True)
 #     name = djongoModels.CharField(max_length=500)
 #     age = djongoModels.IntegerField()
+
+class ProfileUser(djongoModels.Model): 
+    user = djongoModels.OneToOneField(
+        User, 
+        on_delete = djongoModels.CASCADE, 
+        null = True
+    )
+    zalo = djongoModels.CharField(max_length=50)
+    

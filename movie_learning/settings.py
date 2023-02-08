@@ -139,3 +139,8 @@ DEFAULT_AUTO_FIELD = 'djongo.models.BigAutoField'
 #     # ('* * * * *', 'app.cronjobs.get_cookies_udemy', '>> '+os.path.join(BASE_DIR,'logs/cronjob.log' + ' 2>&1 ')),
 #     ('* * * * *', 'app.cronjobs.get_cookie_all_platform', '>> '+os.path.join(BASE_DIR,'logs/cronjob.log' + ' 2>&1 '))
 # ]
+
+
+
+
+
