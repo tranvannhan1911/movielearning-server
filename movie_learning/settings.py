@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -42,7 +43,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'core_movie',
     'crawl',
-    'django_extensions'
+    'django_extensions',
+    'cinema'
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
@@ -139,3 +141,14 @@ DEFAULT_AUTO_FIELD = 'djongo.models.BigAutoField'
 #     # ('* * * * *', 'app.cronjobs.get_cookies_udemy', '>> '+os.path.join(BASE_DIR,'logs/cronjob.log' + ' 2>&1 ')),
 #     ('* * * * *', 'app.cronjobs.get_cookie_all_platform', '>> '+os.path.join(BASE_DIR,'logs/cronjob.log' + ' 2>&1 '))
 # ]
+
+# 
+ASGI_APPLICATION = "movie_learning.asgi.application"
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
+}
