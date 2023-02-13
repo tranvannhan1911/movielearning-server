@@ -95,19 +95,14 @@ class Movie(djongoModels.Model):
     link_mp4 = djongoModels.TextField(default=None)
     dateFirstPublished = djongoModels.DateTimeField(default=timezone.now)
     movie_id = djongoModels.CharField(primary_key=True, max_length=255,default=" ")
-
     objects = djongoModels.DjongoManager()
-
-# class User(djongoModels.Model):
-#     user_id = djongoModels.AutoField(primary_key=True)
-#     name = djongoModels.CharField(max_length=500)
-#     age = djongoModels.IntegerField()
 
 class ProfileUser(djongoModels.Model): 
     user = djongoModels.OneToOneField(
         User, 
         on_delete = djongoModels.CASCADE, 
-        null = True
+        null = True 
     )
     zalo = djongoModels.CharField(max_length=50)
+    
     
