@@ -39,7 +39,6 @@ schema_view = get_schema_view(
 
 router = DefaultRouter() 
 router.register('api', UserViewSet) 
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('movie/',include('core_movie.urls')),

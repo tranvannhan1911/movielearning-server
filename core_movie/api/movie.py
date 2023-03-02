@@ -3,16 +3,16 @@ from rest_framework import status, generics, viewsets
 from rest_framework.decorators import api_view
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import AllowAny
-
+from rest_framework.decorators import action
 from drf_yasg.utils import swagger_auto_schema
 from core_movie import swagger
 from core_movie.swagger import SwaggerSchema
 
 from django.views.decorators.csrf import csrf_exempt
-from core_movie.serializers.movie import MovieSerializer,SubsSerializer
+from core_movie.serializers.movie import MovieSerializer,SubsSerializer, MovieGroupSerializer
 from core_movie.utils.apicodes import ApiCode
-from core_movie.models import Movie,Subs
-from django.contrib.auth.models import User
+from core_movie.models import Movie,Subs, MovieGroup
+# from django.contrib.auth.models import User
 
 #List Movie
 class AllMovieView(generics.ListAPIView):
@@ -110,8 +110,46 @@ class SubsView(generics.ListAPIView):
 #             return Response("Added Successfully",status=status.HTTP_201_CREATED)
 #         return Response("Failed to Add", status=status.HTTP_400_BAD_REQUEST)
 
-
+class MovieGroupView(viewsets.ViewSet, generics.CreateAPIView): 
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [AllowAny]
+    queryset = MovieGroup.objects.filter(is_active=True)
+    serializer_class = MovieGroupSerializer
     
+    @action(methods=['GET'], detail = True) 
+    def get_detail(self, request, pk):         
+        try:
+            m = MovieGroup.objects.get(pk=pk)
+        except MovieGroup.DoesNotExist:
+            return Response(status=status.HTTP_400_BAD_REQUEST)     
+        return Response(data=MovieGroupSerializer(m, context = {'request': request},).data, status = status.HTTP_200_OK)
+    
+    @action(methods=['GET'], detail = True) 
+    def get(self, request): 
+        try:
+            m = MovieGroup.objects.all()
+        except MovieGroup.DoesNotExist:
+            return Response(status=status.HTTP_400_BAD_REQUEST)     
+        return Response(data=MovieGroupSerializer(m, context = {'request': request}, many=True).data, status = status.HTTP_200_OK)
+    
+    @action(methods=['GET'], detail = True) 
+    def get_list_of_movies(self, request, pk): 
+        try:
+            movie_list = MovieGroup.objects.get(pk=pk).movies.all()   
+            reponse = MovieSerializer(movie_list, context = {'request': request}, many=True).data  
+        except MovieGroup.DoesNotExist:
+            return Response(status=status.HTTP_400_BAD_REQUEST)     
+        return Response(
+            # data=reponse, 
+            ApiCode.success(
+                data = reponse, 
+                message = "danh sach phim " + pk, 
+                total = MovieGroup.objects.get(pk=pk).movies.count(), 
+                count = len(reponse),
+            ),
+            status = status.HTTP_200_OK)
+
+
     
      
     

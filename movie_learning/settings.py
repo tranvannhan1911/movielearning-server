@@ -91,6 +91,7 @@ DATABASES = {
             "authMechanism":"SCRAM-SHA-1" #FOR ATLAS DB
         }
     }
+    
     # 'default': {
     #     'ENGINE': 'django.db.backends.mysql',
     #     'NAME': 'movieLearning',

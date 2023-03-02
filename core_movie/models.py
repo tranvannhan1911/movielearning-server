@@ -96,12 +96,23 @@ class Movie(djongoModels.Model):
     dateFirstPublished = djongoModels.DateTimeField(default=timezone.now)
     movie_id = djongoModels.CharField(primary_key=True, max_length=255,default=" ")
     objects = djongoModels.DjongoManager()
+    def __str__(self): 
+        return self.title
+    
+class MovieGroup(djongoModels.Model):
+    title = djongoModels.CharField(primary_key=True, max_length=255,default="haha") 
+    movies = djongoModels.ManyToManyField(Movie, blank=True)
+    is_active = djongoModels.BooleanField(default = True)
+    class Meta: 
+        ordering = ['title']
+    def __str__(self):
+        return self.title;
 
 class ProfileUser(djongoModels.Model): 
     user = djongoModels.OneToOneField(
         User, 
         on_delete = djongoModels.CASCADE, 
-        null = True 
+        null = True
     )
     zalo = djongoModels.CharField(max_length=50)
     

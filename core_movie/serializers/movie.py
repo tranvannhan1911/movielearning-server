@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from ..models import Movie,Subs
+from ..models import Movie,Subs, MovieGroup
 
 # class MovieSerializer(serializers.ModelSerializer):
 #     class Meta:
@@ -54,4 +54,8 @@ class SubsSerializer(serializers.ModelSerializer):
                     embedded_dict.pop(key)
             return_data = embedded_dict
         return return_data
-    
+
+class MovieGroupSerializer(serializers.ModelSerializer): 
+    class Meta: 
+        model=MovieGroup
+        fields = '__all__'
